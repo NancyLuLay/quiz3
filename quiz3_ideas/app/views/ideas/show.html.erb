@@ -1,0 +1,67 @@
+<h1><%= @idea.title %></h1>
+<p>
+  <%= @idea.body %>
+</p>
+<h4>By <%= @idea.user.first_name.capitalize%></h4>
+<%= link_to "Edit", edit_idea_path(@idea) %>
+|
+<%= link_to "Delete", idea_path(@idea),
+                        method: :delete,
+                        data: {confirm: "Are you sure?"}%>
+|
+<!-- Like -->
+<% if can? :like, @idea %>
+  <% user_like = @idea.like_for current_user %>
+  <% if user_like.present? %>
+  <%= link_to "Unlike", idea_like_path(@idea, user_like),
+                        method: :delete %>
+  <% else %>
+  <%= link_to "Like", idea_likes_path(@idea),
+                      method: :post %>
+  <% end %>
+<% else %>
+Like
+<% end %>
+(<%= pluralize @idea.likes.count, "like" %>)
+
+|
+<!-- Join -->
+<% if can? :join, @idea %>
+  <% member_join = @idea.join_for current_user %>
+  <% if member_join.present? %>
+  Joined
+  <%= link_to "Unjoin", idea_join_path(@idea, member_join),
+                        method: :delete %>
+  <% else %>
+  <%= link_to "Join", idea_joins_path(@idea),
+                        method: :post %>
+  <% end %>
+<% else %>
+Join
+<% end %>
+<br>
+These are all the members who have joined this idea:
+<ul>
+<% @members.each do |member|%>
+<li> <%= User.find(member.user_id).first_name %> </li>
+<% end %>
+</ul>
+<!-- Comments -->
+<%= @comment.errors.full_messages.join(", ") %>
+<%= form_for [@idea, @comment] do |f| %>
+<div>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+</div>
+<%= f.submit %>
+<% end %>
+
+<!-- Displaying comments -->
+<h2>Comments</h2>
+<% @idea.comments.each do |comm| %>
+<%= comm.body %>
+<%= link_to "delete", idea_comment_path(@idea, comm),
+                      method: :delete,
+                      data: {confirm: "Are you sure you want to delete the comment?"} %>
+<hr>
+<% end %>

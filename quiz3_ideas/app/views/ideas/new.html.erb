@@ -1,0 +1,17 @@
+<h1>Submit a new idea</h1>
+<%= @idea.errors.full_messages.join(", ") %>
+<%= form_for @idea do |f| %>
+
+<div>
+  <%= f.label :title%>
+  <%= f.text_field :title %>
+</div>
+
+<div>
+  <%= f.label :body%>
+  <%= f.text_area :body %>
+</div>
+
+<%= f.submit %>
+
+<% end %>
