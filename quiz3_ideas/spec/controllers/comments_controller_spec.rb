@@ -39,6 +39,7 @@ let(:user) { FactoryGirl.create :user }
           valid_request
           expect(Comment.last.user).to eq(user)
         end
+    end
 
       context "with invalid attributes" do
         def invalid_request
@@ -55,7 +56,6 @@ let(:user) { FactoryGirl.create :user }
           expect(response).to render_template("ideas/show")
         end
       end
-    end
   end
 
   describe "#destroy" do
@@ -64,6 +64,7 @@ let(:user) { FactoryGirl.create :user }
         delete :destroy, params: {id: comment.id}
         expect(response).to redirect_to root_path
       end
+    end
 
     context "with signed in user" do
       before { request.session[:user_id] = user.id }
@@ -75,11 +76,19 @@ let(:user) { FactoryGirl.create :user }
         count_after = Comment.count
         expect(count_after).to eq(count_before - 1)
       end
-
-    end
     end
   end
-end
+
+  end
+
+
+
+
+
+
+
+
+
 
   describe "redirects back to the idea show page after creating or deleting comments" do
   # create a coment "with valid parameters"
@@ -124,7 +133,7 @@ end
    end
 
   # it "allows users to delete only their own comments"
-  #
-  # it "allos idea owners to delete any comments on their ideas"
+
+  # it "allows idea owners to delete any comments on their ideas"
 
 end
