@@ -7,6 +7,7 @@ class LikesController < ApplicationController
     if !(can? :like, idea)
       redirect_to root_path, alert: "access denied"
     elsif like.save
+      AnswerMailer.notify_idea_owner(like).deliver_later
       redirect_to idea_path(idea), notice: "Thanks for liking"
     else
       redirect_to idea_path(idea), alert: like.errors.full_messages.join(", ")
