@@ -11,7 +11,6 @@ class IdeasController < ApplicationController
   def create
     @idea        = Idea.new idea_params
     @idea.user = current_user
-    @user = User.create(user_params)
     if @idea.save
       redirect_to idea_path(@idea), notice: "Idea created successfully"
     else
@@ -49,12 +48,8 @@ class IdeasController < ApplicationController
     @idea = Idea.find params[:id]
   end
 
-  def user_params
-    params.require(:user).permit(:avatar)
-  end
-
   def idea_params
-    params.require(:idea).permit([:title, :body, :user_id])
+    params.require(:idea).permit([:title, :body, :user_id, :image ])
   end
 
   def authorize!

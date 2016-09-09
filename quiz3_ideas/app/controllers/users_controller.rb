@@ -2,12 +2,6 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    # @user.avatar = params[:file] # Assign a file like this, or
-    #
-    # @user.save!
-    # @user.avatar.url # => '/url/to/file.png'
-    # @user.avatar.current_path # => 'path/to/file.png'
-    # @user.avatar_identifier # => 'file.png'
   end
 
   def create
